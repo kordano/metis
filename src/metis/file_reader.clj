@@ -19,11 +19,17 @@
   [data]
   (apply hash-map
          (split (reduce #(str %1 " " %2)
-           (map #(replace  % #"  " " ")
-            (split data #"\n"))) #"\s")))
+                        (split data #"\n"))#"\s")))
 
 
 (defn create-country-entry
   "Format big csv data"
   [raw-entry topics]
   {:country (first raw-entry) :data ()})
+
+
+(defn parse-number
+  "Reads a number from a string. Returns nil if not a number."
+  [s]
+  (if (re-find #"^-?\d+\.?\d*$" s)
+    (read-string s)))
