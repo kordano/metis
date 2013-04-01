@@ -78,6 +78,14 @@
   [data]
   (+ (third-quartile data) (* 1.5 (iqr data))))
 
+
 (defn variance
+  "Computes variance of data values"
   [data]
   (/ (reduce + (map #(math/expt (- % (mean data)) 2) data)) (dec (count data))))
+
+
+(defn standard-deviation
+  "Computes standard deviantion of data values"
+  [data]
+  (math/sqrt (variance data)))
