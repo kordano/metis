@@ -3,7 +3,6 @@
   (:require [clojure.math.numeric-tower :as math]))
 
 
-
 (defn- after-decimal-point
   "Returns numbers after decimal point"
   [number]
@@ -67,7 +66,7 @@
   (- (reduce max data) (reduce min data)))
 
 
-(defn upper-innerfence
+(defn lower-innerfence
   "Computes upper innerfence of data values"
   [data]
   (- (first-quartile data) (* 1.5 (iqr data))))
