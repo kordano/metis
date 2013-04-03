@@ -1,4 +1,4 @@
-(ns metis.summarize
+(ns metis.descriptive
   (:use metis.file-reader)
   (:require [clojure.math.numeric-tower :as math]))
 

@@ -1,6 +1,6 @@
 (ns metis.core
   (:use metis.file-reader
-        metis.summarize))
+        metis.descriptive))
 
 
 (def data
