@@ -1,5 +1,5 @@
 (ns metis.file-reader
-  (:use [clojure.string]))
+  (:require [clojure.string :as string]))
 
 
 (defn read-file
@@ -10,7 +10,7 @@
 (defn- extract-topics
   "Extracts the topics (e.g. the column names) of the csv file"
   [raw-data]
-  (rest (split (first (split raw-data #"\n")) #",")))
+  (rest (string/split (first (string/split raw-data #"\n")) #",")))
 
 
 ; only for test purposes
@@ -18,8 +18,8 @@
   "Formats data into hashmap from testfile"
   [data]
   (apply hash-map
-         (split (reduce #(str %1 " " %2)
-                        (split data #"\n"))#"\s")))
+         (string/split (reduce #(str %1 " " %2)
+                        (string/split data #"\n"))#"\s")))
 
 
 (defn create-country-entry
