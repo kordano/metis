@@ -88,3 +88,31 @@
   "Computes standard deviantion of data values"
   [data]
   (math/sqrt (variance data)))
+  
+(defn freq 
+  "Returns frequencies of values"
+  [data interval-bounds]
+  (let [sorted (sort data) 
+        counted (vec (map #(let [bound %] 
+                             (count (take-while (partial > bound) sorted))) 
+                          interval-bounds))]
+    (map - (conj counted (count sorted)) (cons 0 counted)))
+  )
+
+(defn freq2 
+  "Returns frequencies of values"
+  [data interval-bounds]
+  (loop [i 0
+         n (count interval-bounds)
+         rmd-data (sort data)
+         result []]
+    (if-not (< i n)
+      (conj result (count rmd-data)) 
+      (let [bound (nth interval-bounds i)
+            split-data (split-with (partial > bound) rmd-data)]
+        (recur (inc i)
+               n
+               (peek split-data)
+               (conj result (count (first split-data))))))))
+
+
