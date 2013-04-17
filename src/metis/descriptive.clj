@@ -88,3 +88,25 @@
   "Computes standard deviantion of data values"
   [data]
   (math/sqrt (variance data)))
+
+
+(defn alt-variance
+  "Alternative computation of variance"
+  [data]
+  (- (/ (reduce + (map #(math/expt % 2) data)) (dec (count data)))) (math/expt (mean data) 2))
+
+
+(defn sample-covariance
+  [data1 data2]
+  (let [diff1 (map #(- % (mean data1)) data1)
+        diff2 (map #(- % (mean data2)) data2)]
+    (/
+     (reduce + (map
+                #(* (first %) (last %))
+                (map list diff1 diff2)))
+     (dec (count data1)))))
+
+
+(defn sample-correlation
+  [data1 data2]
+  (/ (sample-covariance data1 data2) (* (variance data1) (variance data2))))
