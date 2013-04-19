@@ -12,12 +12,12 @@
 
 (median data)
 
-(first-quartile data)
-
-(third-quartile data)
+(p-quantile data 0.5)
 
 (variance data)
 
 (iqr data)
 
 (standard-deviation data)
+
+(pearson data '(50 60 70 80))
