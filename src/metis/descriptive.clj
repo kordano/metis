@@ -21,20 +21,11 @@
          (after-decimal-point index)))))
 
 
-(defn first-quartile
-  "Computes first-quartile of data values"
-  [data]
-  (let [index (/ (dec (count data)) 4)]
+(defn p-quantile
+  "Computes the p-quantile of data values"
+  [data p]
+  (let [index (* (dec (count data)) p)]
     (if (integer? index)
-      (get (vec (sort data)) index)
-      (halfway data index))))
-
-
-(defn third-quartile
-  "Computes third-quartile of data values"
-  [data]
-  (let [index (/ (* (dec (count data)) 3) 4)]
-    (if ( integer? index)
         (get (vec (sort data)) index)
         (halfway data index))))
 
@@ -57,7 +48,7 @@
 (defn iqr
   "Computes the interquartile range of data values"
   [data]
-  (- (third-quartile data) (first-quartile data)))
+  (- (p-quantile data 0.75) (p-quantile data 0.25)))
 
 
 (defn data-range
@@ -69,13 +60,13 @@
 (defn lower-innerfence
   "Computes upper innerfence of data values"
   [data]
-  (- (first-quartile data) (* 1.5 (iqr data))))
+  (- (p-quantile data 0.25) (* 1.5 (iqr data))))
 
 
 (defn upper-innerfence
   "Computes upper innerfence of data values"
   [data]
-  (+ (third-quartile data) (* 1.5 (iqr data))))
+  (+ (p-quantile data 0.75) (* 1.5 (iqr data))))
 
 
 (defn variance
@@ -85,7 +76,7 @@
 
 
 (defn standard-deviation
-  "Computes standard deviantion of data values"
+  "Computes standard deviation of data values"
   [data]
   (math/sqrt (variance data)))
 
@@ -114,26 +105,36 @@
 
 (defn freq
   "Returns frequencies of values"
-  [data interval-bounds]
-  (let [sorted (sort data)
-        counted (vec (map #(let [bound %]
-                             (count (take-while (partial > bound) sorted)))
-                          interval-bounds))]
-    (map - (conj counted (count sorted)) (cons 0 counted))))
+  ( [data] (map val (frequencies (sort data))))
+  ( [data interval-bounds]
+      (let [sorted (sort data)
+            counted (vec (map #(let [bound %]
+                                 (count (take-while (partial > bound) sorted)))
+                              interval-bounds))]
+        (map - (conj counted (count sorted)) (cons 0 counted)))))
 
 
 (defn freq2
   "Returns frequencies of values"
-  [data interval-bounds]
-  (loop [i 0
-         n (count interval-bounds)
-         rmd-data (sort data)
-         result []]
-    (if-not (< i n)
-      (conj result (count rmd-data))
-      (let [bound (nth interval-bounds i)
-            split-data (split-with (partial > bound) rmd-data)]
-        (recur (inc i)
-               n
-               (peek split-data)
-               (conj result (count (first split-data))))))))
+  ( [data] (frequencies data))
+  ( [data interval-bounds]
+      (let [bounds (sort interval-bounds)]
+        (loop [i 0
+               n (count bounds)
+               rmd-data (sort data)
+               result {}]
+          (if-not (< i n)
+            (conj result {[(last bounds) (last rmd-data)] (count rmd-data)})
+            (let [rbound (nth bounds i)
+                  lbound (if (= i 0) (first rmd-data) (nth bounds (- i 1)))
+                  split-data (split-with (partial > rbound) rmd-data)]
+              (recur (inc i)
+                     n
+                     (peek split-data)
+                     (conj result {[lbound rbound] (count (first split-data))}))))))))
+
+(defn pearson
+  "Computes Pearsons skewness coefficient"
+  [data bounds]
+  (/ (- (mean data) (mean (key (first (max-key val (freq2 data bounds))))))
+     (standard-deviation data)))
