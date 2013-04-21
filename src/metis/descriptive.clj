@@ -69,25 +69,20 @@
   (+ (p-quantile data 0.75) (* 1.5 (iqr data))))
 
 
-(defn variance
-  "Computes variance of data values"
-  [data]
-  (/ (reduce + (map #(math/expt (- % (mean data)) 2) data)) (dec (count data))))
-
-
-(defn standard-deviation
-  "Computes standard deviation of data values"
-  [data]
-  (math/sqrt (variance data)))
-
-
-(defn alt-variance
+(defn sample-variance
   "Alternative computation of variance"
   [data]
   (- (/ (reduce + (map #(math/expt % 2) data)) (dec (count data)))) (math/expt (mean data) 2))
 
 
+(defn standard-deviation
+  "Computes standard deviation of data values"
+  [data]
+  (math/sqrt (sample-variance data)))
+
+
 (defn sample-covariance
+  "Computes the covariance between two data sets"
   [data1 data2]
   (let [diff1 (map #(- % (mean data1)) data1)
         diff2 (map #(- % (mean data2)) data2)]
@@ -99,8 +94,9 @@
 
 
 (defn sample-correlation
+  "Computes the correlation coefficient between two data sets"
   [data1 data2]
-  (/ (sample-covariance data1 data2) (* (variance data1) (variance data2))))
+  (/ (sample-covariance data1 data2) (* (standard-deviation data1) (standard-deviation data2))))
 
 
 (defn freq
