@@ -2,17 +2,6 @@
   (:require [clojure.string :as string]))
 
 
-(defn read-file
-  [path-to-file]
-  (slurp path-to-file))
-
-
-(defn- extract-topics
-  "Extracts the topics (e.g. the column names) of the csv file"
-  [raw-data]
-  (rest (string/split (first (string/split raw-data #"\n")) #",")))
-
-
 ; only for test purposes
 (defn format-data
   "Formats data into hashmap from testfile"
@@ -22,14 +11,21 @@
                         (string/split data #"\n"))#"\s")))
 
 
-(defn create-country-entry
-  "Format big csv data"
-  [raw-entry topics]
-  {:country (first raw-entry) :data ()})
-
-
-(defn parse-number
+(defn- parse-number
   "Reads a number from a string. Returns nil if not a number."
   [s]
   (if (re-find #"^-?\d+\.?\d*$" s)
     (read-string s)))
+
+
+
+(defn format-gapminder-data
+  "Formats the gapminder data to a readable data map"
+  [raw-data]
+  (let [data (map #(string/split % #",") (rest (string/split raw-data #"\n")))
+        topics (rest (string/split (first (string/split raw-data #"\n")) #","))]
+    (reduce conj
+     (map #(assoc {}
+         (first %)
+         (zipmap topics (rest (map parse-number %)))) ;; nil means that there are no data for this topic
+      data))))
