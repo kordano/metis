@@ -1,5 +1,6 @@
 (ns metis.descriptive
-  (:use metis.file-reader)
+  (:use metis.file-reader
+        metis.numeric)
   (:require [clojure.math.numeric-tower :as math]))
 
 
@@ -114,9 +115,9 @@
   "Returns frequencies of values"
   ( [data] (frequencies data))
   ( [data interval-bounds]
-      (let [bounds (sort interval-bounds)]
+      (let [bounds (sort interval-bounds)
+            n (count bounds)]
         (loop [i 0
-               n (count bounds)
                rmd-data (sort data)
                result {}]
           (if-not (< i n)
@@ -125,7 +126,6 @@
                   lbound (if (= i 0) (first rmd-data) (nth bounds (- i 1)))
                   split-data (split-with (partial > rbound) rmd-data)]
               (recur (inc i)
-                     n
                      (peek split-data)
                      (conj result {[lbound rbound] (count (first split-data))}))))))))
 
@@ -134,3 +134,9 @@
   [data bounds]
   (/ (- (mean data) (mean (key (first (max-key val (freq2 data bounds))))))
      (standard-deviation data)))
+
+(defn gaussian
+  "Computes the normal distribution"
+  [mean variance x]
+  (/ 1 (* (math/sqrt (* 2 variance Math/PI))
+          (math/expt Math/E (/ (math/expt (- x mean) 2) (* 2 variance))))))
