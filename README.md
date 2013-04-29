@@ -6,6 +6,28 @@ A Clojure library for statistics.
 
 Use descriptive namespace for common functions such as mean, median, quartiles, variance and standard deviation.
 
+Later the should be a Webserver and Client providing these functions and much much more. ;-)
+
+## Using the Node.js Webserver
+
+Make sure nodejs and npm is installed, otherwise
+```bash
+  $ sudo apt-get install nodejs
+  $ sudo apt-get install npm
+```
+Install needed packages for node.js and compile Clojurescript
+
+```bash
+  $ npm install
+  $ lein cljsbuild once
+```
+
+Start node.js server
+
+```bash
+  $ nodejs resources/public/js/main.js
+```
+
 ## License
 
 Copyright © 2013 Konrad Kühne
