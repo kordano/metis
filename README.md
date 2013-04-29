@@ -28,6 +28,7 @@ Start node.js server
   $ nodejs resources/public/js/main.js
 ```
 
+Open with your favorite browser http://localhost:3000/
 ## License
 
 Copyright © 2013 Konrad Kühne
