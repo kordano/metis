@@ -45,7 +45,11 @@
         coefs)
       )))
 
-(defn defac-rec [coefs c]
+(defn defac-rec
+  "returns the new coefficients of a polynomial with
+   the given coefficients multiplied by (x - c):
+   [a b] c -> (ax + b)(x - c) -> [a b-ac -bc]"
+  [coefs c]
   (let [x (cons 0 (conj coefs 0))]
     (vec (map + (next x) (map #(* % c) x)))))
 
@@ -64,20 +68,31 @@
 
 (defn newton-cotes
   "computes the integral between a and b for a function f
-   with the closed Newton-Cotes formula of degree n" ;; n < 7 recommended (rounding errors and overflow)
-  [f a b n]
-  (let [h (/ (- b a) n)
-        w (lagrange-weights (inc n))
-        y (map f (range a (inc b) h))
+   with the closed Newton-Cotes formula of degree d" ;; d < 7 recommended (else rounding errors and overflow)
+  [f a b d]
+  (let [h (/ (- b a) d)
+        w (lagrange-weights (inc d))
+        y (map f (range a (inc b) d))
         res (reduce + (map * w y))]
     (* h res)))
 
+;; likely to prove inefficient
+(defn newton-cotes-summed
+  "computes the integral between a and b for a function f
+   with the closed Newton-Cotes formula of degree d applied
+   to n partitions independently"
+  [f a b d n]
+  (let [h (/ (- b a) n)
+        parts (range a (inc b) h)]
+    (reduce + (map #(newton-cotes f %1 %2 d) parts (next parts)))))
 
 (def f (partial polynomial [2 1 3])) ; f(x) = 2x^2 + x + 3
 (def f-prime (partial derivative [2 1 3])) ; f'(x) = 4x + 1
 (def F (partial antiderivative [2 1 3] 5)) ; F(x) = 2/3*x^3 + 1/2*x^2 + 3x + 5
 
-(-> (polynomial-integral [2 1 3] 0 2)) ; 40/3
 (-> (defactor [2 3])) ; [1 -5 6]
 (-> (lagrange-weights 3)) ; 1/3 4/3 1/3
-(-> (newton-cotes f 0 2 3)) ; 40/3
+
+(-> (polynomial-integral [2 1 3] 0 10000)) ; 40/3
+(-> (newton-cotes f 0 100 3)) ; 40/3
+(-> (newton-cotes-summed f 0 10000 3 5)) ; 40/3
