@@ -6,7 +6,7 @@ A Clojure library for statistics.
 
 Use descriptive namespace for common functions such as mean, median, quartiles, variance and standard deviation.
 
-Later the should be a Webserver and Client providing these functions and much much more. ;-)
+Later there should be a Server and Client providing these functions and much much more. ;-)
 
 ## Using the Node.js Webserver
 
