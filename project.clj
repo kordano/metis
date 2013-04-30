@@ -18,10 +18,12 @@
   :cljsbuild {:builds
               [{:source-paths ["src/cljs/server"]
                 :compiler
-                {:output-to "resources/public/js/main.js"
+                {:output-to "js/main.js"
+                 :output-dir "js"
                  :target :nodejs
                  :optimizations :simple
                  :prettyprint true}}
                {:source-paths ["src/cljs/client"]
                 :compiler
-                {:output-to "resources/public/static/cljs.js"}}]})
+                {:output-to "static/cljs.js"
+                 :output-dir "static/cljs"}}]})
