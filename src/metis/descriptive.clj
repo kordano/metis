@@ -87,8 +87,7 @@
   [data1 data2]
   (let [diff1 (map #(- % (mean data1)) data1)
         diff2 (map #(- % (mean data2)) data2)]
-    (/
-     (reduce + (map
+    (/ (reduce + (map
                 #(* (first %) (last %))
                 (map list diff1 diff2)))
      (dec (count data1)))))
@@ -129,14 +128,23 @@
                      (peek split-data)
                      (conj result {[lbound rbound] (count (first split-data))}))))))))
 
+
 (defn pearson
   "Computes Pearsons skewness coefficient"
   [data bounds]
   (/ (- (mean data) (mean (key (first (max-key val (freq2 data bounds))))))
      (standard-deviation data)))
 
-(defn gaussian
-  "Computes the normal distribution"
-  [mean variance x]
-  (/ 1 (* (math/sqrt (* 2 variance Math/PI))
-          (math/expt Math/E (/ (math/expt (- x mean) 2) (* 2 variance))))))
+
+;; Kleinster Quadrate Schätzer
+(defn linear-regression
+  "Computes the linear regression function for a given data set: make sure there is 2-dim data"
+  [x y]
+  (let [beta (/ (sample-covariance x y) (sample-variance x))
+        alpha (- (mean y) (* beta (mean x)))]
+    {:alpha alpha :beta beta}))
+
+(def x [0.3 2.2 0.5 0.7 1.0 1.8 3.0 0.2 2.3])
+(def y [5.8 4.4 6.5 5.8 5.6 5.0 4.8 6.0 6.1])
+
+(linear-regression x y)
