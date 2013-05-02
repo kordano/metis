@@ -26,4 +26,5 @@
                {:source-paths ["src/cljs/client"]
                 :compiler
                 {:output-to "static/cljs.js"
+                 :optimizations :simple
                  :output-dir "static/cljs"}}]})
