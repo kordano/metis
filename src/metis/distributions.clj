@@ -11,11 +11,11 @@
 (def std-gaussian (partial gaussian 0 1))
 
 
-(defn exponential-distribution
+(defn exponential
   "Computes the exponential distribution"
-  [x]
-  (* x (math/expt )))
-  
+  [lambda x]
+  (if (neg? x) 0 (/ lambda (math/expt Math/E (* lambda x)))))
+
 
 (defn b-coef
   "Computes the binomial coefficient n over k"
@@ -30,9 +30,23 @@
 
 
 (defn bernoulli
-  "Computes the bernoulli distribution for X = k (in {0, 1})"
+  "Computes the bernoulli distribution for X = k.
+   Returns false if k is not in {0, 1}"
   [p k]
-  (if (= k 1) p (- 1 p)))
+  (if (= k 0) (- 1 p)
+      (if (= k 1) p false)))
+
+(defn geometric2
+  "Computes the geometric distribution used for modeling
+   the number of failures until the first success"
+  [p k]
+  (* (math/exp (- 1 p) k) p))
+
+(defn geometric
+  "Computes the geometric distribution used for modeling
+   the number of trials until the first success"
+  [p k]
+  (geometric2 p (- k 1)))
 
 
 ;;TODO discrete and continous distributions:
