@@ -40,7 +40,7 @@
   "Computes the geometric distribution used for modeling
    the number of failures until the first success"
   [p k]
-  (* (math/exp (- 1 p) k) p))
+  (* (math/expt (- 1 p) k) p))
 
 (defn geometric
   "Computes the geometric distribution used for modeling
