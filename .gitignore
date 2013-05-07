@@ -4,6 +4,9 @@
 /checkouts
 /js
 /node_modules
+/.repl
+/static/cljs.js
+/static/cljs
 pom.xml
 pom.xml.asc
 *.jar
