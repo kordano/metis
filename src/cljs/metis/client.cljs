@@ -10,3 +10,8 @@
       (cemerick.piggieback/cljs-repl
        :repl-env (doto (cljs.repl.browser/repl-env :port 9000)
                    cljs.repl/-setup)))
+
+
+#_(set! (.-innerHTML (.getElementById js/document "Test")) "<p>Salut<p>")
+
+#_ (js/alert "red alert! shields up!")
