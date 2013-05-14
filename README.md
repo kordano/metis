@@ -8,27 +8,11 @@ Use descriptive namespace for common functions such as mean, median, quartiles, 
 
 Later there should be a Server and Client providing these functions and much much more. ;-)
 
-## Using the Node.js Webserver
+## Fire up repls
 
-Make sure nodejs and npm is installed, otherwise
-```bash
-  $ sudo apt-get install nodejs
-  $ sudo apt-get install npm
-```
-Install needed packages for node.js and compile Clojurescript
+Start two REPLs: in the first start the jetty-server in clj/metis/server/routes.clj, in the other the piggyback REPL from cljs/metis/client.cljs.
 
-```bash
-  $ npm install
-  $ lein cljsbuild once
-```
-
-Start node.js server
-
-```bash
-  $ nodejs resources/public/js/main.js
-```
-
-Open with your favorite browser http://localhost:3000/
+Open with your favorite browser http://localhost:1337/
 ## License
 
 Copyright © 2013 Konrad Kühne
