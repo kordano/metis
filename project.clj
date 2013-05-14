@@ -33,17 +33,8 @@
                :stdout ".repl-firefox-out"
                :sterr ".repl-firefox-err"]
     }
-
-              :builds
-              [{:source-paths ["src/cljs/server"]
-                :compiler
-                {:output-to "js/main.js"
-                 :output-dir "js"
-                 :target :nodejs
-                 :optimizations :simple
-                 :prettyprint true}}
-               {:source-paths ["src/cljs/client"]
-                :compiler
-                {:output-to "static/cljs.js"
-                 :optimizations :simple
-                 :output-dir "static/cljs"}}]})
+   :builds
+   [{:source-paths ["src/cljs"]
+     :compiler
+     {:output-to "resources/public/js/cljs.js"
+      :optimizations :simple}}]})
