@@ -2,22 +2,6 @@
   (:require-macros [hiccups.core :as hiccups])
   (:require [hiccups.runtime :as hiccupsrtm]))
 
-;; Helper
-(defn clj->js
-  "Recursively transforms ClojureScript maps into Javascript objects,
-   other ClojureScript colls into JavaScript arrays, and ClojureScript
-   keywords into JavaScript strings. Credit:
-   http://mmcgrana.github.com/2011/09/clojurescript-nodejs.html"
-  [x]
-  (cond
-    (string? x) x
-    (keyword? x) (name x)
-    (map? x) (.-strobj (reduce (fn [m [k v]]
-               (assoc m (clj->js k) (clj->js v))) {} x))
-    (coll? x) (apply array (map clj->js x))
-    :else x))
-
-
 (defn log [& args] (apply (.-log js/console) (map str args)))
 
 (def http (js/require "http"))
@@ -29,10 +13,16 @@
    [:html
     [:head
      [:link {:rel "stylesheet" :href "/style.css"}]
-     [:script {:type "text/javascript" :src "/cljs/goog/base.js"}]
      [:script {:type "text/javascript" :src "/cljs.js"}]
-     [:script {:type "text/javascript"} "goog.require('metis.client');"]]
-    [:body]]))
+     ]
+    [:body
+     [:div
+      [:p "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched c-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die."]
+      [:img {:id "anotherImage" :style "display:none;" :src "/avatar.png"}]
+      [:canvas {:id "aCanvas":style"border: 1px solid black; width: 300px; height: 431px;" :width "300" :height "431"}]
+      [:br]
+      [:img {:id "otherImage" :style "display:none;" :src "/avatar2.png"}]
+      [:canvas {:id "anotherCanvas" :style "border: 1px solid black; width: 300px; height: 396px;":width "300" :height "396"}]]]]))
 
 (defn get-main
   [req res]
