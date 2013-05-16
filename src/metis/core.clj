@@ -1,7 +1,6 @@
 (ns metis.core
   (:use metis.file-reader
-        metis.descriptive)
-  (:require [clojure.data.csv :as csv]))
+        metis.descriptive))
 
 
 (defn five-point-summary
@@ -12,26 +11,6 @@
    :Third-Quartile (p-quantile data 0.75)
    :Maximum (reduce max data)})
 
-
-(def formated-data
-  (reduce conj
-          (map
-           #(assoc {} (key %) (parse-number (val %)))
-           (format-data (slurp "data/LifeExpTable")))))
-
-(def data (vals formated-data))
-
-(five-point-summary data)
-
-(p-quantile data 0.5)
-
-(variance data)
-
-(iqr data)
-
-(standard-deviation data)
-
-(pearson data '(50 60 70 80))
 
 ;; Example hour compensation
 (def hour-comp-data (format-gapminder-data (slurp "data/hour_comp.csv")))
