@@ -16,7 +16,7 @@
     [:title "Metis Math Services"]]
    [:body
     [:h1 "Welcome to Metis Math Services"]
-    [:div {:id "Test"}]
+    [:div {:id "DIV1"}]
     (run-clojurescript
      "js/cljs.js"
      "metis.repl.connect()")]))
