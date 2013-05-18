@@ -3,7 +3,7 @@
             [clojure.browser.event :as event]
             [hiccups.runtime :as hiccupsrt]
             [domina :as dom]
-            [metis.html.canvas :as canvas]
+            [metis.html.canvas :as canvas])
   (:require-macros [hiccups.core :as hiccups]))
 
 ; fire up a repl for the browser and eval namespace on top once connected
@@ -66,7 +66,9 @@
     [:canvas {:id "theCanvas" :width background-width :height background-height}]
     [:p
      [:input {:type "button" :id "init-btn" :name "button1" :value "Init"}]
-     [:input {:type "button" :id "draw-btn" :name "button2" :value "Draw!"}]]]))
+     [:input {:type "button" :id "draw-btn" :name "button2" :value "Draw!"}]]
+    [:p "r"
+     [:input [:type "range" :id "rRange" :min 0 :max 255]]]]))
 
 
 #_ (do
