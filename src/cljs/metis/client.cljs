@@ -28,6 +28,7 @@
     (canvas/draw-line ctx '([200 185] [200 165]))
     (canvas/draw-line ctx '([190 165] [210 165]))))
 
+
 (defn draw-lower-whiskers [ctx]
   (do
     (canvas/draw-line ctx '([200 215] [200 255]))
@@ -62,9 +63,6 @@
   (hiccups/html
    [:body
     [:canvas {:id "theCanvas" :width background-width :height background-height}]
-    [:p
-     [:input {:type "button" :id "init-btn" :name "button1" :value "Init"}]
-     [:input {:type "button" :id "draw-btn" :name "button2" :value "Draw!"}]]
     [:p "r  "
      [:input {:type "range" :name "points" :id "rRange" :min "0" :max "255" :value "0"}]
      [:span {:id "current-r"}]]
@@ -77,34 +75,41 @@
 
     ]))
 
+(defn init-all []
+  (do
+    (set! (.-innerHTML (dom/by-id "plottings")) (init-canvas))
+    (set! (.-onclick (dom/by-id "boxplotter")) (fn [] (draw-background)))
+    (set! (.-onchange (dom/by-id "rRange"))
+          (fn []
+            (let [r-val (.-value (dom/by-id "rRange"))
+                  g-val (.-value (dom/by-id "gRange"))
+                  b-val (.-value (dom/by-id "bRange"))]
+                 (do
+                   (draw-boxplot r-val g-val b-val)
+                   (set! (.-innerHTML (dom/by-id "current-r")) r-val)))))
+    (set! (.-onchange (dom/by-id "gRange"))
+          (fn []
+            (let [r-val (.-value (dom/by-id "rRange"))
+                  g-val (.-value (dom/by-id "gRange"))
+                  b-val (.-value (dom/by-id "bRange"))]
+                 (do
+                   (draw-boxplot r-val g-val b-val)
+                   (set! (.-innerHTML (dom/by-id "current-g")) g-val)))))
+    (set! (.-onchange (dom/by-id "bRange"))
+          (fn []
+            (let [r-val (.-value (dom/by-id "rRange"))
+                  g-val (.-value (dom/by-id "gRange"))
+                  b-val (.-value (dom/by-id "bRange"))]
+                 (do
+                   (draw-boxplot r-val g-val b-val)
+                   (set! (.-innerHTML (dom/by-id "current-b")) b-val)))))))
 
-#_ (do
-     (set! (.-innerHTML (dom/by-id "DIV1")) (init-canvas))
-     (set! (.-onclick (dom/by-id "init-btn")) (fn [] (draw-background)))
-     (set! (.-onchange (dom/by-id "rRange"))
-           (fn []
-             (let [r-val (.-value (dom/by-id "rRange"))
-                   g-val (.-value (dom/by-id "gRange"))
-                   b-val (.-value (dom/by-id "bRange"))]
-                  (do
-                    (draw-boxplot r-val g-val b-val)
-                    (set! (.-innerHTML (dom/by-id "current-r")) r-val)))))
-     (set! (.-onchange (dom/by-id "gRange"))
-           (fn []
-             (let [r-val (.-value (dom/by-id "rRange"))
-                   g-val (.-value (dom/by-id "gRange"))
-                   b-val (.-value (dom/by-id "bRange"))]
-                  (do
-                    (draw-boxplot r-val g-val b-val)
-                    (set! (.-innerHTML (dom/by-id "current-g")) g-val)))))
-     (set! (.-onchange (dom/by-id "bRange"))
-           (fn []
-             (let [r-val (.-value (dom/by-id "rRange"))
-                   g-val (.-value (dom/by-id "gRange"))
-                   b-val (.-value (dom/by-id "bRange"))]
-                  (do
-                    (draw-boxplot r-val g-val b-val)
-                    (set! (.-innerHTML (dom/by-id "current-b")) b-val)))))
-     (set! (.-onclick (dom/by-id "draw-btn")) (fn [] (draw-boxplot))))
 
 #_(js/alert "red alert!")
+
+
+
+
+
+
+#_ (init-all)
