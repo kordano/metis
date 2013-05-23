@@ -10,6 +10,8 @@
                  [org.clojure/math.numeric-tower "0.0.2"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [com.cemerick/piggieback "0.0.4"]
+                 [jayq "2.3.0"]
+                 [garden "0.1.0-beta2"]
                  [hiccups "0.1.1"]
                  [domina "1.0.1"]
                  [webfui "0.2.1"]
