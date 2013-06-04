@@ -1,7 +1,7 @@
 (ns metis.server.views
   (:require
     [hiccup
-      [page :refer [html5]]
+nil      [page :refer [html5]]
       [element :refer [javascript-tag]]
      [page :refer [include-js]]]
     [garden.core :refer [css]]))
@@ -12,7 +12,8 @@
    (javascript-tag init)))
 
 (def html-background-color "#e5e5e5")
-(def background-color "#1f1f1f")
+(def background-color "#1a1a1a")
+(def hover-background-color "#8C0806")
 
 (defn body-css []
   [:body :html
@@ -33,17 +34,20 @@
 (defn header-css []
   [:#header
    {:background background-color
-    :color "#fffed5"
+    :color "#ffffff"
     :margin "0"
     :text-align "center"
     :font-size "large"}])
+
+
+(def controls-css []
+  [:#controls])
 
 
 (defn sidebar-css []
   [:#sidebar
    {:float "left"
     :width "100px"
-   ; :box-shadow "0 5px 15px 1px rgba(0,0,0,0.6),0 0 75px 1px rgba(255,255,255,0.5)"
     }
     [:ul
      {:padding "0px"
@@ -59,15 +63,18 @@
        :border-bottom "1px solid #333"}
       [:a
        {:text-decoration "none"
-        :color "#b1c956"
+        :color "#7A7A7A"
         :display "block"}
        [:&:hover
-        {:background "#b1c956"
-         :color background-color
+        {:background hover-background-color
+         :color "#FFFFFF"
+         :text-shadow "1px 1px 1px rgba(0,0,0,0.75)"
          }]]
       [:&#active
-       {:background "#b1c956"
-        :color background-color}]]]])
+       {:background hover-background-color
+        :color "#FFFFFF"
+        :text-shadow "1px 1px 1px rgba(0,0,0,0.75)"
+        }]]]])
 
 
 (defn plottings-css []
