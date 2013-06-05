@@ -1,6 +1,6 @@
-(ns metis.descriptive
-  (:use metis.file-reader
-        metis.numeric)
+(ns metis.math.descriptive
+  (:use metis.math.file-reader
+        metis.math.numeric)
   (:require [clojure.math.numeric-tower :as math]))
 
 

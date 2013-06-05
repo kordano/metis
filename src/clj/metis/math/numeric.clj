@@ -1,4 +1,4 @@
-(ns metis.numeric)
+(ns metis.math.numeric)
 
 
 ;; Following functions are taken from:

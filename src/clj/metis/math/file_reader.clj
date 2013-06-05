@@ -1,4 +1,4 @@
-(ns metis.file-reader
+(ns metis.math.file-reader
   (:require [clojure.string :as string]))
 
 
@@ -11,7 +11,7 @@
                         (string/split data #"\n"))#"\s")))
 
 
-(defn- parse-number
+(defn parse-number
   "Reads a number from a string. Returns nil if not a number."
   [s]
   (if (re-find #"^-?\d+\.?\d*$" s)
