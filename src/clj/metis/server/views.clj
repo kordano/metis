@@ -1,7 +1,7 @@
 (ns metis.server.views
   (:require
     [hiccup
-nil      [page :refer [html5]]
+      [page :refer [html5]]
       [element :refer [javascript-tag]]
      [page :refer [include-js]]]
     [garden.core :refer [css]]))
@@ -38,10 +38,6 @@ nil      [page :refer [html5]]
     :margin "0"
     :text-align "center"
     :font-size "large"}])
-
-
-(def controls-css []
-  [:#controls])
 
 
 (defn sidebar-css []
