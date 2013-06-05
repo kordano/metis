@@ -1,6 +1,8 @@
-(ns metis.distributions
-  (:use metis.numeric)
+(ns metis.math.distributions
+  (:use metis.math.numeric
+        metis.math.core)
   (:require [clojure.math.numeric-tower :as math]))
+
 
 (defn gaussian
   "Computes the normal distribution"
@@ -23,6 +25,7 @@
   (/ (reduce * (range (inc (- n k)) (inc n)))
      (reduce * (range 1 (inc k)))))
 
+
 (defn binomial
   "Computes the binomial distribution for X = k"
   [n p k]
@@ -36,11 +39,13 @@
   (if (= k 0) (- 1 p)
       (if (= k 1) p false)))
 
+
 (defn geometric2
   "Computes the geometric distribution used for modeling
    the number of failures until the first success"
   [p k]
   (* (math/expt (- 1 p) k) p))
+
 
 (defn geometric
   "Computes the geometric distribution used for modeling
@@ -49,4 +54,16 @@
   (geometric2 p (- k 1)))
 
 
-;;TODO discrete and continous distributions:
+(defn m-coef
+  "Compute the multinomial"
+  [n n-list]
+  (if (= n (reduce + n-list))
+    (/ (factorial n)
+       (reduce * (map factorial n-list)))
+    0))
+
+
+(defn multinomial [n p-list n-list]
+  (let [cross-list (map vector p-list n-list)]
+    (* (m-coef n n-list)
+       (reduce * (map #(math/expt (first %) (second %)) cross-list)))))
